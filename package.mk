@@ -197,21 +197,27 @@ $(1)-tar: $(1)-download $$($(2)_TARGET_TAR)
 
 # To make srpms, we need to build the package
 $(1)-srpm: $(1)-tar $$($(2)_TARGET_SRPM)
-
+$(1)-srpm-git: $(1)-srpm
+ 
 # To make binary rpms, we need to build source RPMs
 $(1)-rpm: deprecate $(1)-srpm $$($(2)_TARGET_RPM)
+$(1)-rpm-git: $(1)-rpm
 
 # To make a yum/zypper repo, we need to build binary RPMs
 $(1)-yum: $(1)-rpm $$($(2)_TARGET_YUM)
+$(1)-yum-git: $(1)-rpm
 
 # To make sdebs, we need to build the package
 $(1)-sdeb: $(1)-tar $$($(2)_TARGET_SDEB)
+$(1)-sdeb-git: $(1)-sdeb
 
 # To make debs, we need to make source packages
 $(1)-deb: deprecate $(1)-sdeb $$($(2)_TARGET_DEB)
+$(1)-deb-git: $(1)-deb
 
 # To make an apt repo, we need to build binary DEBs
 $(1)-apt: $(1)-deb $$($(2)_TARGET_APT)
+$(1)-apt-git: $(1)-apt
 
 ####
 # Helper targets -version -help etc
@@ -221,7 +227,9 @@ $(1)-version: deprecate
 $(1)-help: deprecate
 	@echo "    $(1)  [$(1)-version, $(1)-info, $(1)-relnotes,"
 	@echo "           $(1)-srpm, $(1)-rpm]"
+	@echo "           $(1)-srpm-git, $(1)-rpm-git]"
 	@echo "           $(1)-sdeb, $(1)-deb]"
+	@echo "           $(1)-sdeb-git, $(1)-deb-git]"
 
 $(1)-clean:
 	rm -rf $(BUILD_DIR)/$(1)

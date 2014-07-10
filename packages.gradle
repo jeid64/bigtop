@@ -20,12 +20,13 @@ apply plugin: 'groovy'
 apply plugin: 'download-task'
 
 final String VERBOSE = "verbose"
-final String BOM = "bigtop.mk"
+String BOM = "bigtop.mk"
 
 //HashMap <String, String>
 def BOM_map = [
     APACHE_MIRROR:  "http://apache.osuosl.org",
     APACHE_ARCHIVE: "http://archive.apache.org/dist",
+    GITHUB_MIRROR: "https://github.com",
     BASE_DIR:       projectDir.absolutePath,
     BUILD_DIR:      projectDir.absolutePath + "/build",
     OUTPUT_DIR:     projectDir.absolutePath + "/output",
@@ -159,6 +160,10 @@ def genTasks = { target, variable ->
     touchTargetFile(BOM_map[variable + '_TARGET_TAR'])
   }
 
+  task "$target-deb-git" (dependsOn: "${target}-deb") << {
+        println 'Obtained source from Git.'
+  }
+
   // Keeping the reference to deb task to be used later for correct sequencing
   Task tdeb =   task "$target-deb" (dependsOn: "${target}-sdeb") << {
     if (new File(BOM_map[variable + '_TARGET_DEB'])?.exists()) {
@@ -285,6 +290,10 @@ def genTasks = { target, variable ->
       }
     }
     touchTargetFile(BOM_map["${variable}_TARGET_APT"])
+  }
+
+  task "$target-rpm-git" (dependsOn: "${target}-rpm") << {
+        println 'Obtained source from Git.'
   }
 
   // Keeping the reference to task to be used later for correct sequencing
@@ -486,6 +495,9 @@ def readBOM = {
 
 // We need to make sure that all dynamic tasks are available for invocation
 project.afterEvaluate {
+  if (gradle.startParameter.taskNames.findAll{task -> task.contains('-git')}.size() > 0) {
+    BOM = "bigtop-github.mk"
+  }
   readBOM()
   def bomVersions = ""
   components.each { component ->

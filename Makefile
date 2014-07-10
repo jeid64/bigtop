@@ -39,14 +39,23 @@ TARGETS:=
 TARGETS_HELP:=
 TARGETS_CLEAN:=
 
-
+# Check if we're using Github or Apache and choose which bigtop*.mk
+# file to include
+# If git is not in the goal, we want Apache as source
+ifeq (,$(findstring git,$(MAKECMDGOALS)))
 # Default Apache mirror
 APACHE_MIRROR ?= http://apache.osuosl.org
 APACHE_ARCHIVE ?= http://archive.apache.org/dist
-
 # Include the implicit rules and functions for building packages
 include package.mk
 include bigtop.mk
+else
+# Set mirror to Github
+GITHUB_MIRROR ?= https://github.com
+# Include the implicit rules and functions for building packages
+include package.mk
+include bigtop-github.mk
+endif
 
 help: deprecate package-help
 
