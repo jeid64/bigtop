@@ -26,6 +26,7 @@ final String BOM = "bigtop.mk"
 def BOM_map = [
     APACHE_MIRROR:  "http://apache.osuosl.org",
     APACHE_ARCHIVE: "http://archive.apache.org/dist",
+    GITHUB_MIRROR: "https://github.com/apache",
     BASE_DIR:       projectDir.absolutePath,
     BUILD_DIR:      projectDir.absolutePath + "/build",
     OUTPUT_DIR:     projectDir.absolutePath + "/output",

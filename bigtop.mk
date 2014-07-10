@@ -56,6 +56,30 @@ HBASE_SITE=$(APACHE_MIRROR)$(HBASE_DOWNLOAD_PATH)
 HBASE_ARCHIVE=$(APACHE_ARCHIVE)$(HBASE_DOWNLOAD_PATH)
 $(eval $(call PACKAGE,hbase,HBASE))
 
+# HBase github example.
+# Set GIT_BRANCH to be a tag, branch, or commit that you want downloaded and built against.
+# PKG_VERSION must be set to whatever version you want the package to be versioned at.
+# DOWNLOAD_PATH and SITE must start follow the example below.
+# TARBALL_SRC needs to be changed to GIT_BRANCH.zip
+# GIT_USER is the GitHub username to then get the GIT_REPO.
+# Example: github.com/apache/hbase, apache would be GIT_USER and hbase would be GIT_REPO.
+# ARCHIVE should be set to the same value as SITE.
+#HBASE_NAME=hbase
+#HBASE_RELNOTES_NAME=Apache HBase
+#HBASE_PKG_NAME=hbase
+#HBASE_BASE_VERSION=0.98.2
+#HBASE_PKG_VERSION=$(HBASE_BASE_VERSION)
+#HBASE_GIT_USER=apache
+#HBASE_GIT_REPO=hbase
+#HBASE_GIT_BRANCH=0.98.2
+#HBASE_RELEASE_VERSION=1
+#HBASE_TARBALL_DST=hbase-$(HBASE_BASE_VERSION).tar.gz
+#HBASE_TARBALL_SRC=$(HBASE_GIT_BRANCH).zip
+#HBASE_DOWNLOAD_PATH=/$(HBASE_GIT_USER)/$(HBASE_GIT_REPO)/archive
+#HBASE_SITE=$(GITHUB_MIRROR)$(HBASE_DOWNLOAD_PATH)
+#HBASE_ARCHIVE=$(HBASE_SITE)
+#$(eval $(call PACKAGE,hbase,HBASE))
+
 # Pig
 PIG_BASE_VERSION=0.12.1
 PIG_PKG_VERSION=$(PIG_BASE_VERSION)
